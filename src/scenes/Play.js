@@ -6,10 +6,14 @@ class Play extends Phaser.Scene {
 
     preload() {
 //load images and tile sprite
-        this.load.image('bobber', './assets/bobber.png');
+       
+        this.load.spritesheet('bobber', './assets/bobber.png', 
+            {frameWidth: 16, frameHeight: 16, startFrame: 0, endFrame: 1});
+
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('river', './assets/river.png');
         this.load.image('dirt', './assets/dirt.png');
+        
         this.load.spritesheet('explosion', './assets/explosion.png', 
             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('fish', './assets/fish.png', 
@@ -35,18 +39,18 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-        //add bobber
-        this.p1Bobber = new Rocket(this, game.config.width/2, 431, 
-            'bobber').setOrigin(0, 0);
-        //this.p1Bobber.anims.play('bob');
-
-            //fish swimming anim
+        //fish swimming anim
         this.anims.create({
             key: 'swim',
             frames: this.anims.generateFrameNumbers('fish', {start: 0, end: 4, first: 0}, true),
             frameRate: 8,
             repeat: -1
         });
+
+         //add bobber
+         this.p1Bobber = new Rocket(this, game.config.width/2, 431, 
+            'bobber').setOrigin(0, 0);
+            this.p1Bobber.anims.play('bob');
        
 
             //add fish x3
