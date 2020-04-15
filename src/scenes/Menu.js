@@ -13,10 +13,10 @@ class Menu extends Phaser.Scene {
     create() {
 
         let menuConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor : '#F3B141',
-            color: '#843605',
+            fontFamily: 'CasualEncounter',
+            fontSize: '18px',
+            //backgroundColor : '#F3B141',
+            color: '#ffffff',
             align: 'right',
             padding: {
                 top: 5,
@@ -30,17 +30,18 @@ class Menu extends Phaser.Scene {
         let centerY = game.config.height/2;
         let textSpacer = 64;
 
-        this.add.text(centerX, centerY- textSpacer, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
-        this.add.text(centerX, centerY, 'Use arrows ←→ to move & (F) to Fire', 
+        this.add.text(centerX, centerY- textSpacer, 'Uncle Jim\'s shitty fishing trip', menuConfig).setOrigin(0.5);
+        this.add.text(centerX, centerY, 'Use arrows <--> to move & (F) to reel in', 
             menuConfig).setOrigin(0.5);
-        menuConfig.backgroundColor = '#00ff00';
-        menuConfig.color = '#000';
-        this.add.text(centerX, centerY + textSpacer, 'Press ← for Easy or → for Hard', menuConfig).setOrigin(0.5);
+        //menuConfig.backgroundColor = '#00ff00';
+        //menuConfig.color = '#000';
+        this.add.text(centerX, centerY + textSpacer, 'Press <- for Easy or-> for Hard', menuConfig).setOrigin(0.5);
 
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         //this.scene.start("playScene");
     }
 

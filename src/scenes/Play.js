@@ -13,7 +13,8 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('river', './assets/river.png');
         this.load.image('dirt', './assets/dirt.png');
-        
+        this.load.image('kid', './assets/character.png');
+
         this.load.spritesheet('explosion', './assets/explosion.png', 
             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.spritesheet('fish', './assets/fish.png', 
@@ -25,13 +26,7 @@ class Play extends Phaser.Scene {
         this.river = this.add.tileSprite(0, 0, 640, 480, 'river').setOrigin(0, 0);
         this.dirt = this.add.sprite(0, 0, 'dirt').setOrigin(0, 0);
 
-        //this.add.rectangle(5,5,630,32, 0xFFFFFF).setOrigin(0,0);
-        //this.add.rectangle(5,443,630,32, 0xFFFFFF).setOrigin(0,0);
-        //this.add.rectangle(5,5,32,455, 0xFFFFFF).setOrigin(0,0);
-        //this.add.rectangle(603,5,32,455, 0xFFFFFF).setOrigin(0,0);
-        //green ui background
-        //this.add.rectangle(37, 42, 566, 64, 0x00ff00).setOrigin(0, 0);
-
+        //bobber anim
         this.anims.create({
             key: 'bob',
             frames: this.anims.generateFrameNumbers('bobber', {start: 0, end: 1, first: 0}, true),
@@ -51,6 +46,10 @@ class Play extends Phaser.Scene {
          this.p1Bobber = new Rocket(this, game.config.width/2, 431, 
             'bobber').setOrigin(0, 0);
             this.p1Bobber.anims.play('bob');
+
+        //add kid
+        this.player = new Player(this, game.config.width/2, 20, 'kid').setOrigin(0.1);
+
        
 
             //add fish x3
@@ -69,10 +68,13 @@ class Play extends Phaser.Scene {
             
 
             // define keyboard keys
-            keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-            keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-            keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         
+
+        //explosion anim
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
@@ -82,38 +84,40 @@ class Play extends Phaser.Scene {
 
         
 
-        //score
-        this.p1Score = 0; 
+       
 
+       
         //score display
         let scoreConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor : '#F3B141',
-            color: '#843605',
+            fontFamily: 'CasualEncounter',
+            fontSize: '18px',
+            color: '#ffffff',
             align: 'right',
             padding: {
-                top: 5,
+                top: 15,
                 bottom: 5,
+                left: 10,
+                right: 10
             },
             fixedWidth: 100
         }
 
-        this.scoreLeft = this.add.text(69, 54, this.p1Score, scoreConfig);
+        //score
+        this.p1Score = 0; 
+
+        this.scoreLeft = this.add.text(69, 54, 0, scoreConfig);
 
         this.gameOver = false;
 
         //play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, '(F)ire to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER!', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'F to Restart or UP for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
-        //add fish swimming
-        //let fish1 = this.add.sprite(300, 200, 'fish').setOrigin(0, 0);
-        //fish1.anims.play('swim');
+        
     }
 
     update() {
@@ -121,7 +125,7 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyF)) {
             this.scene.restart(this.p1Score);
         }
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyUP)) {
             this.scene.start("menuScene");
         }
         
@@ -130,6 +134,7 @@ class Play extends Phaser.Scene {
 
         if(!this.gameOver){
             this.p1Bobber.update();
+            this.player.update();
             this.fish01.update();
             this.fish02.update();
             this.fish03.update();
