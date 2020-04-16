@@ -11,7 +11,8 @@ class Play extends Phaser.Scene {
             {frameWidth: 16, frameHeight: 16, startFrame: 0, endFrame: 1});
 
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('river', './assets/river.png');
+        this.load.image('waterTop', './assets/waterTop.png');
+        this.load.image('waterBot', './assets/waterBot.png');
         this.load.image('dirt', './assets/dirt.png');
         this.load.image('kid', './assets/character.png');
 
@@ -23,8 +24,9 @@ class Play extends Phaser.Scene {
 
     create() {
         //place tile sprite
-        this.river = this.add.tileSprite(0, 0, 640, 480, 'river').setOrigin(0, 0);
+        this.add.rectangle(0,0, 800, 600, 0x0388A6).setOrigin(0,0);
         this.dirt = this.add.sprite(0, 0, 'dirt').setOrigin(0, 0);
+        
 
         //bobber anim
         this.anims.create({
@@ -42,10 +44,7 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-         //add bobber
-         this.p1Bobber = new Rocket(this, game.config.width/2, 431, 
-            'bobber').setOrigin(0, 0);
-            this.p1Bobber.anims.play('bob');
+         
 
         //add kid
         this.player = new Player(this, game.config.width/2, 20, 'kid').setOrigin(0.1);
@@ -53,20 +52,30 @@ class Play extends Phaser.Scene {
        
 
             //add fish x3
-            this.fish01 = new Spaceship(this, game.config.width + 192, 132, 'fish',
+            this.fish01 = new Spaceship(this, game.config.width + 192, 200, 'fish',
                  0, 30).setOrigin(0,0);
                  this.fish01.anims.play('swim');
 
-             this.fish02 = new Spaceship(this, game.config.width + 96, 196, 'fish',
+             this.fish02 = new Spaceship(this, game.config.width + 96, 300, 'fish',
                  0, 20).setScale(0.75, 0.75).setOrigin(0,0);
                  this.fish02.anims.play('swim');
 
-            this.fish03 = new Spaceship(this, game.config.width, 260, 'fish',
+            this.fish03 = new Spaceship(this, game.config.width, 375, 'fish',
                  0, 10).setScale(0.5, 0.5).setOrigin(0,0);
                  this.fish03.anims.play('swim');
 
-            
+        
+        this.waterBot = this.add.tileSprite(0, 120, 800, 480, 'waterBot').setOrigin(0, 0); 
+        this.waterTop = this.add.tileSprite(0, 120, 800, 480, 'waterTop').setOrigin(0, 0);  
 
+
+        //add bobber
+        this.p1Bobber = new Rocket(this, game.config.width/2, 450, 
+            'bobber').setOrigin(0, 0);
+            this.p1Bobber.anims.play('bob');
+
+            
+            
             // define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -109,6 +118,17 @@ class Play extends Phaser.Scene {
 
         this.gameOver = false;
 
+
+        // //timer countdown display
+        // this.timeInSeconds = game.config.gameTimer / 1000;
+        // this.scoreDisplay = this.add.text(game.config.width/2, game.config.height/2, 'Counter: 0', { font: "64px Arial", fill: "#ffffff", align: "center" });
+        // //this.scoreDisplay.anchor.setTo(0.5, 0.5);
+
+        // this.timer = this.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, 
+        //     this);
+        
+        
+        
         //play clock
         scoreConfig.fixedWidth = 0;
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
@@ -117,7 +137,33 @@ class Play extends Phaser.Scene {
             this.gameOver = true;
         }, null, this);
 
-        
+        //this.timeLeft = this.add.text(100, 500, game.settings.timer, scoreConfig);
+
+       
+    }
+
+
+
+    updateTimer() {
+        this.timeInSeconds--;
+        var minutes = Math.floor(this.timeInSeconds / 60);
+        var seconds = this.timeInSeconds - (minutes * 60);
+        var timeString = this.addZeros(minutes) + ":" + this.addZeros(seconds);
+        this.timeText.text = timeString;
+    
+        if (this.timeInSeconds == 0) {
+            this.game.state.restart();
+        }
+    };
+
+    
+
+    updateCounter() {
+
+        counter++;
+    
+        this.scoreDisplay.text = ('Counter: ' + counter);
+    
     }
 
     update() {
@@ -129,8 +175,9 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
         
-        //scroll river
-        this.river.tilePositionX += 1;
+        //scroll water
+        this.waterBot.tilePositionX += 0.75;
+        this.waterTop.tilePositionX += 1;
 
         if(!this.gameOver){
             this.p1Bobber.update();

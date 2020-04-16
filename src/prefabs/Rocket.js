@@ -12,9 +12,9 @@ class Rocket extends Phaser.GameObjects.Sprite {
     update() {
         // left/right movement
         //if(!this.isFiring){
-            if(keyLEFT.isDown && this.x >= 47){
+            if(keyLEFT.isDown && this.x >= 50){
                 this.x -= 2;
-            } else if(keyRIGHT.isDown && this.x <= 578) {
+            } else if(keyRIGHT.isDown && this.x <= 700) {
                 this.x += 2;
             }
         //}
@@ -24,17 +24,17 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.sfxReel.play();
         }
         //if fired move up
-        if(this.isFiring && this.y >= 108) {
+        if(this.isFiring && this.y >= 120) {
             this.y -= 2;
         }
         //reset on miss
-        if(this.y <= 108) {
+        if(this.y <= 120) {
             this.reset();
         }
     }
 
     reset() {
         this.isFiring = false;
-            this.y = 431;
+            this.y = 525;
     }
 }
