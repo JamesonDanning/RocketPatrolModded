@@ -15,6 +15,8 @@ class Play extends Phaser.Scene {
         this.load.image('waterBot', './assets/waterBot.png');
         this.load.image('dirt', './assets/dirt.png');
         this.load.image('kid', './assets/character.png');
+        this.load.image('scoreBoard', './assets/scoreBoard.png');
+        this.load.image('timeBoard', './assets/timeBoard.png');
 
         this.load.spritesheet('explosion', './assets/explosion.png', 
             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -91,7 +93,9 @@ class Play extends Phaser.Scene {
             
         });
 
-        
+        //score and time boards
+        this.scoreBoard = this.add.sprite(10, 495, 'scoreBoard').setOrigin(0,0);
+        this.timeBoard = this.add.sprite(662, 495, 'timeBoard').setOrigin(0,0);
 
        
 
@@ -113,19 +117,12 @@ class Play extends Phaser.Scene {
 
         //score
         this.p1Score = 0; 
-
-        this.scoreLeft = this.add.text(69, 54, 0, scoreConfig);
+        this.scoreLeft = this.add.text(25, 527, 0, scoreConfig);
 
         this.gameOver = false;
 
 
-        // //timer countdown display
-        // this.timeInSeconds = game.config.gameTimer / 1000;
-        // this.scoreDisplay = this.add.text(game.config.width/2, game.config.height/2, 'Counter: 0', { font: "64px Arial", fill: "#ffffff", align: "center" });
-        // //this.scoreDisplay.anchor.setTo(0.5, 0.5);
 
-        // this.timer = this.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, 
-        //     this);
         
         
         
@@ -145,15 +142,7 @@ class Play extends Phaser.Scene {
 
 
     updateTimer() {
-        this.timeInSeconds--;
-        var minutes = Math.floor(this.timeInSeconds / 60);
-        var seconds = this.timeInSeconds - (minutes * 60);
-        var timeString = this.addZeros(minutes) + ":" + this.addZeros(seconds);
-        this.timeText.text = timeString;
-    
-        if (this.timeInSeconds == 0) {
-            this.game.state.restart();
-        }
+       
     };
 
     
