@@ -17,6 +17,7 @@ class Play extends Phaser.Scene {
         this.load.image('kid', './assets/character.png');
         this.load.image('scoreBoard', './assets/scoreBoard.png');
         this.load.image('timeBoard', './assets/timeBoard.png');
+        this.load.image('jim', './assets/jim.png');
 
         this.load.spritesheet('splash', './assets/splash.png', 
             {frameWidth: 96, frameHeight: 96, startFrame: 0, endFrame: 5});
@@ -80,6 +81,10 @@ class Play extends Phaser.Scene {
 
         //add kid
         this.player = new Player(this, 380, 20, 'kid').setOrigin(0.1);
+        
+        //add jim
+        this.jim = this.add.sprite(60, 40, 'jim').setOrigin(0, 0);
+        
 
             
             
