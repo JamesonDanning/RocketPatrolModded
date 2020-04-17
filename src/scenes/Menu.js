@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene {
 
     preload(){
         //load audio
-        this.load.audio('bgmusic', './assets/bgmusic.mp3');
+        //this.load.audio('bgmusic', './assets/bgmusic.mp3');
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_cast', './assets/cast.wav');
         this.load.audio('sfx_reel', './assets/reel.wav');
@@ -15,12 +15,10 @@ class Menu extends Phaser.Scene {
     }
     create() {
 
-      let musicConfig = {
-        repeat: -1,
-      }
-        this.bgm = game.sound.add('bgmusic');
-        this.bgm.loop = true;
-        this.bgm.play();
+      
+        //this.bgm = game.sound.add('bgmusic');
+        //this.bgm.loop = true;
+        //this.bgm.play();
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

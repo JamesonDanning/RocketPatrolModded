@@ -18,8 +18,8 @@ class Play extends Phaser.Scene {
         this.load.image('scoreBoard', './assets/scoreBoard.png');
         this.load.image('timeBoard', './assets/timeBoard.png');
 
-        this.load.spritesheet('explosion', './assets/explosion.png', 
-            {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('splash', './assets/splash.png', 
+            {frameWidth: 96, frameHeight: 96, startFrame: 0, endFrame: 5});
         this.load.spritesheet('fish', './assets/fish.png', 
             {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 4});
     }
@@ -27,7 +27,7 @@ class Play extends Phaser.Scene {
     create() {
         //place tile sprite
         this.add.rectangle(0,0, 800, 600, 0x0388A6).setOrigin(0,0);
-        this.dirt = this.add.sprite(0, 0, 'dirt').setOrigin(0, 0);
+       
         
 
         //bobber anim
@@ -48,33 +48,38 @@ class Play extends Phaser.Scene {
 
          
 
-        //add kid
-        this.player = new Player(this, game.config.width/2, 20, 'kid').setOrigin(0.1);
+        
 
        
 
             //add fish x3
-            this.fish01 = new Spaceship(this, game.config.width + 192, 200, 'fish',
-                 0, 30).setOrigin(0,0);
+        this.fish01 = new Spaceship(this, game.config.width + 192, 200, 'fish',
+             0, 30).setOrigin(0,0);
                  this.fish01.anims.play('swim');
 
-             this.fish02 = new Spaceship(this, game.config.width + 96, 300, 'fish',
-                 0, 20).setScale(0.75, 0.75).setOrigin(0,0);
-                 this.fish02.anims.play('swim');
+        this.fish02 = new Spaceship(this, game.config.width + 96, 300, 'fish',
+            0, 20).setScale(0.75, 0.75).setOrigin(0,0);
+            this.fish02.anims.play('swim');
 
-            this.fish03 = new Spaceship(this, game.config.width, 375, 'fish',
-                 0, 10).setScale(0.5, 0.5).setOrigin(0,0);
-                 this.fish03.anims.play('swim');
+        this.fish03 = new Spaceship(this, game.config.width, 375, 'fish',
+            0, 10).setScale(0.5, 0.5).setOrigin(0,0);
+            this.fish03.anims.play('swim');
 
         
         this.waterBot = this.add.tileSprite(0, 120, 800, 480, 'waterBot').setOrigin(0, 0); 
-        this.waterTop = this.add.tileSprite(0, 120, 800, 480, 'waterTop').setOrigin(0, 0);  
+        this.waterTop = this.add.tileSprite(0, 100, 800, 480, 'waterTop').setOrigin(0, 0);
+        this.waterTop.setScale(1.1, 1.1);
+        
+        this.dirt = this.add.sprite(0, 0, 'dirt').setOrigin(0, 0);
 
 
         //add bobber
         this.p1Bobber = new Rocket(this, game.config.width/2, 450, 
             'bobber').setOrigin(0, 0);
             this.p1Bobber.anims.play('bob');
+
+        //add kid
+        this.player = new Player(this, 380, 20, 'kid').setOrigin(0.1);
 
             
             
@@ -85,11 +90,11 @@ class Play extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         
 
-        //explosion anim
+        //splash anim
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
-            frameRate: 30
+            frames: this.anims.generateFrameNumbers('splash', {start: 0, end: 9, first: 0}),
+            frameRate: 12
             
         });
 
@@ -122,8 +127,8 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
 
 
-
-        
+        //add timer countdown
+        this.timeCount = this.add.text(655,527, '', scoreConfig);
         
         
         //play clock
@@ -141,9 +146,7 @@ class Play extends Phaser.Scene {
 
 
 
-    updateTimer() {
-       
-    };
+   
 
     
 
@@ -174,6 +177,8 @@ class Play extends Phaser.Scene {
             this.fish01.update();
             this.fish02.update();
             this.fish03.update();
+
+            this.timeCount.setText((game.settings.gameTimer/1000) - Math.floor(this.clock.getElapsedSeconds()));
         }
 
         if(this.checkCollision(this.p1Bobber, this.fish03)) {
@@ -207,7 +212,7 @@ class Play extends Phaser.Scene {
 
     shipExplode(ship) {
         ship.alpha = 0;
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        let boom = this.add.sprite(ship.x - 50, ship.y - 50, 'splash').setOrigin(0, 0);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
             ship.reset();
