@@ -47,6 +47,13 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
+        //splash anim
+        this.anims.create({
+            key: 'explode',
+            frames: this.anims.generateFrameNumbers('splash', {start: 0, end: 9, first: 0}),
+            frameRate: 12
+            
+        });
          
 
         
@@ -75,18 +82,27 @@ class Play extends Phaser.Scene {
 
 
         //add bobber
-        this.p1Bobber = new Rocket(this, game.config.width/2, 450, 
-            'bobber').setOrigin(0, 0);
+        this.p1Bobber = new Rocket(this, game.config.width/2, 525, 
+            'bobber');
             this.p1Bobber.anims.play('bob');
 
         //add kid
-        this.player = new Player(this, 380, 20, 'kid').setOrigin(0.1);
+        this.player = new Player(this, game.config.width/2, 65, 'kid');
         
         //add jim
         this.jim = this.add.sprite(60, 40, 'jim').setOrigin(0, 0);
         
 
-            
+        
+        //draw fishing line
+        this.graphics = this.add.graphics();
+        
+
+        //this.graphics.lineBetween(this.p1Bobber.x, this.p1Bobber.y, this.player.x, this.player.y);
+
+        //this.line = new Phaser.GameObject.Line(100,100,200,200);
+
+
             
             // define keyboard keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -95,13 +111,7 @@ class Play extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         
 
-        //splash anim
-        this.anims.create({
-            key: 'explode',
-            frames: this.anims.generateFrameNumbers('splash', {start: 0, end: 9, first: 0}),
-            frameRate: 12
-            
-        });
+        
 
         //score and time boards
         this.scoreBoard = this.add.sprite(10, 495, 'scoreBoard').setOrigin(0,0);
@@ -151,17 +161,6 @@ class Play extends Phaser.Scene {
 
 
 
-   
-
-    
-
-    updateCounter() {
-
-        counter++;
-    
-        this.scoreDisplay.text = ('Counter: ' + counter);
-    
-    }
 
     update() {
 
@@ -185,6 +184,10 @@ class Play extends Phaser.Scene {
 
             this.timeCount.setText((game.settings.gameTimer/1000) - Math.floor(this.clock.getElapsedSeconds()));
         }
+
+        this.graphics.clear();
+        this.graphics.lineStyle(1, 0xff0000, 1);
+        this.graphics.lineBetween(this.p1Bobber.x, this.p1Bobber.y, this.player.x, this.player.y);
 
         if(this.checkCollision(this.p1Bobber, this.fish03)) {
             this.p1Bobber.reset();
