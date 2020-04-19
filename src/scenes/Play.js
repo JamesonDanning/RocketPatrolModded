@@ -186,7 +186,7 @@ class Play extends Phaser.Scene {
         }
 
         this.graphics.clear();
-        this.graphics.lineStyle(1, 0xff0000, 1);
+        this.graphics.lineStyle(1, 0xbababa, 1);
         this.graphics.lineBetween(this.p1Bobber.x, this.p1Bobber.y, this.player.x, this.player.y);
 
         if(this.checkCollision(this.p1Bobber, this.fish03)) {

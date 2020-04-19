@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         //this.scene.start("playScene");
 
 
@@ -38,7 +38,7 @@ class Menu extends Phaser.Scene {
             gameTimer: 60000    
           }
           this.sound.play('sfx_select');
-          this.scene.start("playScene");    
+          this.scene.start("storyScene");    
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
           // hard mode
@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
             gameTimer: 45000    
           }
           this.sound.play('sfx_select');
-          this.scene.start("playScene");    
+          this.scene.start("storyScene");    
         }
     }
 }
