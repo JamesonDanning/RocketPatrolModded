@@ -17,7 +17,8 @@ class Play extends Phaser.Scene {
         this.load.image('kid', './assets/character.png');
         this.load.image('scoreBoard', './assets/scoreBoard.png');
         this.load.image('timeBoard', './assets/timeBoard.png');
-        this.load.image('jim', './assets/jim.png');
+        this.load.image('jim', './assets/jim2.png');
+        this.load.image('cooler', './assets/cooler.png');
 
         this.load.spritesheet('splash', './assets/splash.png', 
             {frameWidth: 96, frameHeight: 96, startFrame: 0, endFrame: 5});
@@ -80,6 +81,8 @@ class Play extends Phaser.Scene {
         
         this.dirt = this.add.sprite(0, 0, 'dirt').setOrigin(0, 0);
 
+        this.cooler = this.add.sprite(675, 20, 'cooler').setOrigin(0, 0);
+
 
         //add bobber
         this.p1Bobber = new Rocket(this, game.config.width/2, 525, 
@@ -90,7 +93,7 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, game.config.width/2, 65, 'kid');
         
         //add jim
-        this.jim = this.add.sprite(60, 40, 'jim').setOrigin(0, 0);
+        this.jim = this.add.sprite(10, 40, 'jim').setOrigin(0, 0);
         
 
         
@@ -136,6 +139,7 @@ class Play extends Phaser.Scene {
         }
 
         //score
+        this.highscore = 0;
         this.p1Score = 0; 
         this.scoreLeft = this.add.text(25, 527, 0, scoreConfig);
 
@@ -151,6 +155,7 @@ class Play extends Phaser.Scene {
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER!', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'F to Restart or UP for Menu', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 128, 'Highscore: ' + highscore, scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
 
@@ -230,9 +235,15 @@ class Play extends Phaser.Scene {
 
         // score increment and repaint
         this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;    
+        this.scoreLeft.text = this.p1Score; 
+        
+        if(this.p1Score > highscore) {
+            highscore = this.p1Score;
+        }
         
         this.sound.play('sfx_splash');
         //this.sfxReel.stop();
     }
+
+    
 }
