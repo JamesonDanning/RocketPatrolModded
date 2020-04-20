@@ -156,6 +156,16 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER!', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'F to Restart or UP for Menu', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 128, 'Highscore: ' + highscore, scoreConfig).setOrigin(0.5);
+            if(this.p1Score < 200){
+                scoreConfig.fontSize = '12px';
+                this.add.text(game.config.width/2, game.config.height/2 + 192, 'Looks like you might go hungry tonight...', scoreConfig ).setOrigin(0.5);    
+            }
+            if(this.p1Score > 200 && this.p1Score < 500 ){
+                this.add.text(game.config.width/2, game.config.height/2 + 192, 'Not too bad!',scoreConfig ).setOrigin(0.5);    
+            }
+            if(this.p1Score > 500){
+                this.add.text(game.config.width/2, game.config.height/2 + 192, 'Nice Haul!', scoreConfig ).setOrigin(0.5);    
+            }
             this.gameOver = true;
         }, null, this);
 
