@@ -5,6 +5,7 @@ class story extends Phaser.Scene {
 
 preload(){
     this.load.image('story', './assets/screen2.png');
+    this.load.audio('sfx_select', './assets/blip_select12.wav');
 }
 
 create(){
@@ -15,6 +16,7 @@ create(){
 update(){
     
     if (Phaser.Input.Keyboard.JustDown(keyF)) {
+       this.sound.play('sfx_select');
        this.scene.start("playScene");    
       }
 }
